@@ -2,20 +2,24 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 
 export const renderer = jsxRenderer(({ children, title }) => {
   return (
-    <html>
+    <html lang="zh-CN">
       <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/png" href="/static/bitnp-logo.png" />
         <link href="/static/style.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"></link>
-        <title>{title}</title>
+        <title>{title || '短链接'}</title>
       </head>
       <body>
         <header>
           <h1>
-            <a href="/">URL Shortener</a>
+            <a class="brand" href="/">
+              <img src="/static/bitnp-logo.png" width="36" height="36" alt="" />
+              <span>BITNP</span>
+            </a>
           </h1>
         </header>
-        <div>{children}</div>
+        <main>{children}</main>
       </body>
     </html>
   )

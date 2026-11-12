@@ -1,5 +1,22 @@
 # Creating URL Shortener with Cloudflare Pages
 
+## 当前界面与域名白名单
+
+界面已汉化，样式随项目提供，无需加载外部字体或 CSS。
+
+新建短链接时，服务端仅接受以下域名的 HTTP / HTTPS 网址：
+
+- `c13sv18hodb.feishu.cn`（精确匹配，不含其子域名）
+- `bitnp.net` 及其所有子域名（如 `www.bitnp.net`）
+
+规则位于 `src/allowed-url.ts`，按 URL 解析后的主机名匹配，域名不区分大小写。
+`bitnp.net.example.com`、`fakebitnp.net` 等相似域名不在白名单内。
+已有短链接不受此限制，继续按原有记录跳转。
+
+执行 `pnpm test` 运行回归测试，`pnpm typecheck` 检查类型，`pnpm build` 构建。
+
+以下为原项目说明与教程，部分示例反映的是初始版本。
+
 Let's create a super simple URL Shortener with Cloudflare Pages!
 By creating this application you will experience:
 
