@@ -148,11 +148,12 @@ app.post('/create', csrf(), validator, async (c) => {
       />
       <p class="destination"><a href={url}>查看原始网址</a></p>
       <div class="actions">
-        <button type="button" id="copy-short-url">复制短链接</button>
+        <button
+          type="button"
+          onclick="navigator.clipboard.writeText(document.getElementById('short-url').value).then(() => this.textContent = '已复制', () => this.textContent = '复制失败，请重试')"
+        >复制短链接</button>
         <a href="/">继续创建</a>
-        <span id="copy-status" class="copy-status" role="status"></span>
       </div>
-      <script src="/static/copy.js" defer></script>
     </section>,
     { title: '创建成功 · 短链接' }
   )
