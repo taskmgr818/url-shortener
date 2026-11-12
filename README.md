@@ -11,10 +11,26 @@ By creating this application you will experience:
 
 - Developing with Vite.
 - Having UI.
-- The main code is less than 100 lines.
+- Compact application code.
+- Optional custom short codes, with validation and duplicate detection.
 - Validation with Zod.
 - Handling validation error.
 - CSRF Protection.
+
+## Custom short links
+
+Enter a destination URL and optionally a custom short code, such as `my-link`,
+to create a link at `/my-link`. Leave the custom code blank to generate a random
+six-character code as before.
+
+Custom codes are case-sensitive and must contain 1–64 letters (`A–Z`, `a–z`),
+numbers, hyphens or underscores. Surrounding whitespace is trimmed. The codes
+`create` and `static` are reserved. Invalid codes return a validation error (400),
+and codes already stored in KV return a conflict (409) without replacing the
+existing destination.
+
+The tutorial below describes the original random-code implementation. See
+`src/index.tsx` for the current implementation with custom short links.
 
 ## Demo
 
