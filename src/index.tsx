@@ -148,9 +148,11 @@ app.post('/create', csrf(), validator, async (c) => {
       />
       <p class="destination"><a href={url}>查看原始网址</a></p>
       <div class="actions">
-        <a class="button" href="/">继续创建</a>
-        <a href={shortenUrl.toString()}>打开短链接</a>
+        <button type="button" id="copy-short-url">复制短链接</button>
+        <a href="/">继续创建</a>
+        <span id="copy-status" class="copy-status" role="status"></span>
       </div>
+      <script src="/static/copy.js" defer></script>
     </section>,
     { title: '创建成功 · 短链接' }
   )
