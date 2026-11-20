@@ -60,7 +60,7 @@ const CreateForm = ({ url = '', customKey = '', errors = [] }: {
           maxlength={64}
           pattern="[A-Za-z0-9_\-]{1,64}"
           value={customKey}
-          placeholder="留空则随机生成"
+          placeholder="留空则自动分配"
         />
         <button type="submit">生成短链接</button>
       </form>
@@ -113,6 +113,25 @@ const createKey = async (kv: KVNamespace, url: string): Promise<string> => {
   return key
 }
 
+const getOrCreateRandomKey = async (kv: KVNamespace, url: string): Promise<string> => {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(url))
+  const hash = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('')
+  const indexKey = `url:${hash}`
+  const existingKey = await kv.get(indexKey)
+
+  if (existingKey !== null && await kv.get(existingKey) === url) {
+    return existingKey
+  }
+
+  const key = await createKey(kv, url)
+  try {
+    await kv.put(indexKey, key)
+  } catch (error) {
+    console.warn('Failed to write URL deduplication index', error)
+  }
+  return key
+}
+
 app.post('/create', csrf(), validator, async (c) => {
   const { url, customKey } = c.req.valid('form')
   let key: string
@@ -129,7 +148,7 @@ app.post('/create', csrf(), validator, async (c) => {
     await c.env.KV.put(customKey, url)
     key = customKey
   } else {
-    key = await createKey(c.env.KV, url)
+    key = await getOrCreateRandomKey(c.env.KV, url)
   }
 
   const shortenUrl = new URL(`/${key}`, c.req.url)

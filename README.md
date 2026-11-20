@@ -37,8 +37,9 @@ By creating this application you will experience:
 ## Custom short links
 
 Enter a destination URL and optionally a custom short code, such as `my-link`,
-to create a link at `/my-link`. Leave the custom code blank to generate a random
-six-character code as before.
+to create a link at `/my-link`. Leave the custom code blank to reuse an automatic
+short link for the same URL when its KV index is available, or generate a random
+six-character code otherwise.
 
 Custom codes are case-sensitive and must contain 1–64 letters (`A–Z`, `a–z`),
 numbers, hyphens or underscores. Surrounding whitespace is trimmed. The codes
